@@ -11,4 +11,12 @@
     <artifactId>pancreart</artifactId>
     <version>1.0-SNAPSHOT</version>
 
+    <dependencies>
+        <dependency>
+            <groupId>org.microemu</groupId>
+            <artifactId>microemu-jsr-82</artifactId>
+            <version>2.0.4</version>
+        </dependency>
+    </dependencies>
+
 </project>
