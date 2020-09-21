@@ -1,8 +1,6 @@
 import jcu.cp3407.pancreart.model.PowerSupply;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 public class TestPowerSupply extends PowerSupply {
     @Test
     void testDefaults() {
