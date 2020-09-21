@@ -34,6 +34,12 @@
             <artifactId>json</artifactId>
             <version>20200518</version>
         </dependency>
+        <dependency>
+            <groupId>com.stormbots</groupId>
+            <artifactId>minipid</artifactId>
+            <version>1</version>
+            <scope>system</scope>
+            <systemPath>${basedir}/lib/MiniPD.jar</systemPath>
     </dependencies>
 
 </project>
