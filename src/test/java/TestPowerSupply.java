@@ -1,4 +1,4 @@
-import models.PowerSupply;
+import jcu.cp3407.pancreart.model.PowerSupply;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

@@ -1,4 +1,4 @@
-import models.InsulinReservoir;
+import jcu.cp3407.pancreart.model.InsulinReservoir;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
