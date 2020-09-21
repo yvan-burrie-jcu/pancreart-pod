@@ -1,4 +1,4 @@
-package jcu.jcu.cp3407.pancreart.model;
+package jcu.cp3407.pancreart.model;
 
 /**
  * @author Jesse Kerridge-Byrne.
