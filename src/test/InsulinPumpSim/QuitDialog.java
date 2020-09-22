@@ -14,6 +14,7 @@ public class QuitDialog extends Dialog {
     java.awt.Button yesButton = new java.awt.Button();
     java.awt.Button noButton = new java.awt.Button();
     java.awt.Label label1 = new java.awt.Label();
+
     public QuitDialog(Frame parent, boolean modal) {
         super(parent, modal);
 

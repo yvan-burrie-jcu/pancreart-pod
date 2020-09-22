@@ -1,6 +1,8 @@
 import jcu.cp3407.pancreart.model.InsulinPump;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 public class TestInsulinPump extends InsulinPump {
     @Test
     void testDefaults() {
