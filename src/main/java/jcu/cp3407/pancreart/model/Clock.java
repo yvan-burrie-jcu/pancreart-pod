@@ -24,7 +24,7 @@ public class Clock extends Thread {
     public Clock() {
         //Set default values, set blood test frequency to 10mins, according to specs
         seconds = 0;
-        bloodTest = 1200;
+        bloodTest = 600;
         hardwareTest = 30;
 
         //Intialise Message buffer
