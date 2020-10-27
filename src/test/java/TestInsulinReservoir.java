@@ -10,8 +10,10 @@ public class TestInsulinReservoir extends InsulinReservoir {
         assertTrue(InsulinReservoir.isInsulinPresent());
 
         // Test that insulin can be removed
-        InsulinReservoir.removeInsulin();
-        assertFalse(InsulinReservoir.isInsulinPresent());
+        assertEquals(100, InsulinReservoir.getRemainingInsulin());
+        InsulinReservoir.removeInsulin(5);
+        assertEquals(95, InsulinReservoir.getRemainingInsulin());
+        assertTrue(InsulinReservoir.isInsulinPresent());
 
         // Test that insulin can be replaced
         InsulinReservoir.replaceInsulin();
