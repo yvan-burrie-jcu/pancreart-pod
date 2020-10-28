@@ -40,6 +40,7 @@
             <version>1</version>
             <scope>system</scope>
             <systemPath>${basedir}/lib/MiniPD.jar</systemPath>
+        </dependency>
     </dependencies>
 
 </project>
