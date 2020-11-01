@@ -48,9 +48,15 @@ public class Database {
         Statement statement = connection.createStatement();
         ResultSet resultSet = statement.executeQuery("SELECT * FROM `event`");
         while (resultSet.next()) {
+            long eventTypeBuffer = resultSet.getLong("type");
+            Event.Type eventType = Event.Type.GLUCOSE_READING;
+            if (eventTypeBuffer == Event.Type.INSULIN_INJECTION.ordinal()) {
+                eventType = Event.Type.INSULIN_INJECTION;
+            }
             events.add(new Event(
                 resultSet.getInt("user_id"),
-                resultSet.getInt("time"),
+                eventType,
+                resultSet.getLong("time"),
                 resultSet.getFloat("amount")
             ));
         }
