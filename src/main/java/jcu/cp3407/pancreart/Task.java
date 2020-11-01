@@ -1,5 +1,7 @@
 package jcu.cp3407.pancreart;
 
+import jcu.cp3407.pancreart.model.PodHandler;
+
 import java.util.*;
 
 public abstract class Task extends TimerTask {
@@ -13,7 +15,7 @@ public abstract class Task extends TimerTask {
 
     double speed;
 
-    Handler handler;
+    PodHandler handler;
 
     Task(Timer timer, long interval, double speed) {
         this.timer = timer;
@@ -24,13 +26,16 @@ public abstract class Task extends TimerTask {
     void initiate() {
         long oneSecond = (long) (speed * 1000);
         timer.schedule(this, 0, interval * oneSecond);
+        for (Task task : tasks) {
+            task.initiate();
+        }
     }
 
     void registerTask(Task task) {
         tasks.add(task);
     }
 
-    void assignHandler(Handler handler) {
+    void assignHandler(PodHandler handler) {
         this.handler = handler;
         for (Task task : tasks) {
             task.assignHandler(handler);

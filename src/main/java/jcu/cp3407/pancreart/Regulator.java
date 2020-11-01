@@ -5,11 +5,12 @@ import jcu.cp3407.pancreart.model.Event;
 import java.util.*;
 
 import com.stormbots.MiniPID;
+import jcu.cp3407.pancreart.model.PodHandler;
 
 public class Regulator extends Task {
 
     Regulator(Timer timer, double speed) {
-        super(timer, 60 * 10, speed);
+        super(timer, 60 * 10 / Simulator.DELAY_RATE, speed);
     }
 
     @Override
@@ -25,18 +26,25 @@ public class Regulator extends Task {
         Timer timer = new Timer();
 
         // Specify the speed to run threads
-        double speed = 1d / 100;
+        double speed = 1d / 1000;
 
         // Setup simulator with various settings
         Simulator simulator = new Simulator(timer, speed);
         simulator.batteryPowerTask.charging = false;
-        simulator.batteryPowerTask.percent = 20;
-        simulator.glucoseDetectorTask.amount = 120;
+        simulator.batteryPowerTask.percent = 100;
+        simulator.glucoseDetectorTask.amount = 100;
+        simulator.insulinInjectorTask.reservoirAmount = 2000;
+        simulator.currentTime = 4 * 60 * 60;
 
         // Setup a 24-hour daily routine
+        simulator.routines.add(new Simulator.Sleep(
+            "Morning Sleep",
+            0,
+            6)
+        );
         simulator.routines.add(new Simulator.Meal(
             "Breakfast",
-            0,
+            7,
             1)
         );
         simulator.routines.add(new Simulator.Exercise(
@@ -70,9 +78,9 @@ public class Regulator extends Task {
             2)
         );
         simulator.routines.add(new Simulator.Sleep(
-            "Sleep",
+            "Night Sleep",
             21,
-            8)
+            3)
         );
 
         Regulator regulator = new Regulator(timer, speed);
@@ -86,9 +94,9 @@ public class Regulator extends Task {
         final double[] lastGlucoseAmount = new double[1];
 
         // Setup all the callbacks
-        Handler handler = new Handler() {
+        PodHandler handler = new PodHandler() {
             @Override
-            void onGlucoseDetected(double amount) {
+            public void onGlucoseDetected(double amount) {
                 super.onGlucoseDetected(amount);
                 events.add(new Event(
                     0,
@@ -97,9 +105,13 @@ public class Regulator extends Task {
                     amount)
                 );
                 lastGlucoseAmount[0] = amount;
+
+                if (simulator.batteryPowerTask.percent > 90) {
+                    simulator.batteryPowerTask.charging = false;
+                }
             }
             @Override
-            void onInsulinInjected(double amount) {
+            public void onInsulinInjected(double amount) {
                 super.onInsulinInjected(amount);
                 events.add(new Event(
                     0,
@@ -109,18 +121,23 @@ public class Regulator extends Task {
                 );
             }
             @Override
-            void onBatteryPowerLow(double percent) {
+            public void onBatteryPowerLow(double percent) {
                 super.onBatteryPowerLow(percent);
+                simulator.batteryPowerTask.charging = true;
             }
             @Override
-            void onInsulinReservoirLow() {
+            public void onInsulinReservoirLow() {
                 super.onInsulinReservoirLow();
+                simulator.insulinInjectorTask.refill(2000);
             }
             @Override
-            void onRegulateDosage() {
+            public void onRegulateDosage() {
+                if (simulator.batteryPowerTask.percent <= 0) {
+                    return;
+                }
                 super.onRegulateDosage();
-                if (lastGlucoseAmount[0] < 100) {
-                    simulator.insulinInjectorTask.dose(20);
+                if (lastGlucoseAmount[0] > 150) {
+                    simulator.insulinInjectorTask.dose(lastGlucoseAmount[0] / 10);
                 }
             }
         };
