@@ -6,7 +6,7 @@ public class Simulator extends Task {
 
     final static boolean LOG_ENABLED = true;
 
-    final static long DELAY_RATE = 10;
+    final static long DELAY_RATE = 1;
 
     ArrayList<Routine> routines = new ArrayList<>();
 
@@ -217,12 +217,12 @@ public class Simulator extends Task {
          * Simulate a human trying to refill the reservoir.
          */
         public void refill(double amount) {
-            try {
-                long oneSecond = (long) (speed * 1000);
-                wait(oneSecond * 20); // wait for 20 seconds - the time it takes for a human to refill
-                reservoirAmount = amount;
-            } catch (InterruptedException ignored) {
-            }
+//            try {
+            long oneSecond = (long) (speed * 1000);
+//                wait(oneSecond * 20); // wait for 20 seconds - the time it takes for a human to refill
+            reservoirAmount = amount;
+//            } catch (InterruptedException ignored) {
+//            }
         }
     }
 
@@ -303,8 +303,8 @@ public class Simulator extends Task {
         // Regardless of anything, glucose always drops with some randomness
         double value = random.nextFloat() * (GLUCOSE_DECREMENT[2] - GLUCOSE_DECREMENT[0]) + GLUCOSE_DECREMENT[0];
 //        System.out.println("Value: " + value);
-//        glucoseDetectorTask.amount += value;
-        glucoseDetectorTask.amount += GLUCOSE_DECREMENT[1];
+        glucoseDetectorTask.amount += value;
+//        glucoseDetectorTask.amount += GLUCOSE_DECREMENT[1];
 
         currentTime += interval;
     }
